@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Jobs - JobPortal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <!-- Professional Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+    <div class="container">
+      <!-- Brand Logo -->
+      <a class="navbar-brand d-flex align-items-center" href="/">
+        <div class="brand-logo me-2">
+          <i class="fas fa-briefcase"></i>
+        </div>
+        <span class="brand-text">JobPortal</span>
+      </a>
+      
+      <!-- Mobile Toggle Button -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <!-- Navbar Content -->
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <!-- Main Navigation -->
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <i class="fas fa-home me-1"></i>Home
+            </a>
+          </li>
+          
+          <!-- User-specific navigation will be populated by JavaScript -->
+          <li class="nav-item" id="dashboardNav" style="display: none;">
+            <a class="nav-link" href="/dashboard">
+              <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+            </a>
+          </li>
+          
+          <li class="nav-item dropdown" id="jobsDropdown" style="display: none;">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-search me-1"></i>Jobs
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/jobs">
+                <i class="fas fa-list me-2"></i>Browse All Jobs
+              </a></li>
+              <li><a class="dropdown-item" href="/my-applications">
+                <i class="fas fa-file-alt me-2"></i>My Applications
+              </a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/jobs?category=remote">
+                <i class="fas fa-home me-2"></i>Remote Jobs
+              </a></li>
+            </ul>
+          </li>
+          
+          <li class="nav-item dropdown" id="employerDropdown" style="display: none;">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-building me-1"></i>Employer
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/post-job">
+                <i class="fas fa-plus me-2"></i>Post New Job
+              </a></li>
+              <li><a class="dropdown-item" href="/employer/applicants">
+                <i class="fas fa-users me-2"></i>View Applicants
+              </a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/employer/jobs">
+                <i class="fas fa-briefcase me-2"></i>My Job Posts
+              </a></li>
+            </ul>
+          </li>
+          
+          <li class="nav-item" id="browseJobsNav">
+            <a class="nav-link active" href="/jobs">
+              <i class="fas fa-search me-1"></i>Browse Jobs
+            </a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about">
+              <i class="fas fa-info-circle me-1"></i>About
+            </a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/contact">
+              <i class="fas fa-envelope me-1"></i>Contact
+            </a>
+          </li>
+        </ul>
+        
+        <!-- Right Side Navigation -->
+        <ul class="navbar-nav align-items-center">
+          <!-- Theme Toggle -->
+          <li class="nav-item me-2">
+            <button class="btn btn-theme-toggle" onclick="toggleTheme()" id="themeToggle">
+              <span class="theme-icon">🌙</span>
+            </button>
+          </li>
+          
+          <!-- User Profile Dropdown -->
+          <li class="nav-item dropdown" id="userMenu" style="display: none;">
+            <a class="nav-link dropdown-toggle user-dropdown" href="#" role="button" data-bs-toggle="dropdown">
+              <img src="/placeholder.svg" alt="Profile" class="user-avatar me-2" id="navProfilePicture">
+              <span class="user-name d-none d-lg-inline" id="navUserName">User</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end user-menu">
+              <li class="dropdown-header">
+                <div class="user-info">
+                  <img src="/placeholder.svg" alt="Profile" class="user-avatar-large" id="navProfilePictureLarge">
+                  <div class="user-details">
+                    <div class="user-name-large" id="navUserNameLarge">User</div>
+                    <div class="user-role" id="navUserRole">Job Seeker</div>
+                  </div>
+                </div>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/profile">
+                <i class="fas fa-user me-2"></i>My Profile
+              </a></li>
+              <li><a class="dropdown-item" href="/settings">
+                <i class="fas fa-cog me-2"></i>Settings
+              </a></li>
+              <li id="employerBilling" style="display: none;"><a class="dropdown-item" href="/employer/billing">
+                <i class="fas fa-credit-card me-2"></i>Billing
+              </a></li>
+              <li id="savedJobs" style="display: none;"><a class="dropdown-item" href="/saved-jobs">
+                <i class="fas fa-bookmark me-2"></i>Saved Jobs
+              </a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="/logout">
+                <i class="fas fa-sign-out-alt me-2"></i>Sign Out
+              </a></li>
+            </ul>
+          </li>
+          
+          <!-- Guest Navigation -->
+          <li class="nav-item me-2" id="guestSignIn">
+            <a class="btn btn-outline-primary btn-nav" href="/login">
+              <i class="fas fa-sign-in-alt me-1"></i>Sign In
+            </a>
+          </li>
+          <li class="nav-item" id="guestRegister">
+            <a class="btn btn-primary btn-nav" href="/register">
+              <i class="fas fa-user-plus me-1"></i>Get Started
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Floating Background Elements -->
+  <div class="floating-shapes">
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+  </div>
+
+  <!-- Main Content with proper navbar spacing -->
+  <main class="main-content">
+    <div class="container">
+      <div class="main-container">
+        <div class="text-center mb-5">
+          <i class="fas fa-briefcase fa-3x text-primary mb-3"></i>
+          <h1 class="fw-bold mb-3">Browse Jobs</h1>
+          <p class="text-muted">Discover your next career opportunity from top companies worldwide</p>
+        </div>
+
+        <!-- Search and Filter Section -->
+        <div class="card-custom mb-4">
+          <div class="card-body-custom">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label-custom">
+                  <i class="fas fa-search me-2"></i>Search Jobs
+                </label>
+                <input type="text" class="form-control form-control-custom" 
+                       placeholder="Job title, company, or keywords..." id="searchInput">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label-custom">
+                  <i class="fas fa-map-marker-alt me-2"></i>Location
+                </label>
+                <select class="form-select form-select-custom" id="locationFilter">
+                  <option value="">All Locations</option>
+                  <option value="remote">Remote</option>
+                  <option value="mumbai">Mumbai</option>
+                  <option value="pune">Pune</option>
+                  <option value="hyderabad">Hyderabad</option>
+                  <option value="bengaluru">Bengaluru</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label-custom">
+                  <i class="fas fa-briefcase me-2"></i>Job Type
+                </label>
+                <select class="form-select form-select-custom" id="typeFilter">
+                  <option value="">All Types</option>
+                  <option value="full-time">Full-time</option>
+                  <option value="part-time">Part-time</option>
+                  <option value="contract">Contract</option>
+                  <option value="internship">Internship</option>
+                </select>
+              </div>
+              <div class="col-md-2 d-flex align-items-end">
+                <button class="btn btn-primary-custom btn-custom w-100" onclick="applyFilters()">
+                  <i class="fas fa-filter me-1"></i>Filter
+                </button>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12">
+                <button class="btn btn-secondary-custom btn-custom btn-sm" onclick="clearFilters()">
+                  <i class="fas fa-redo me-1"></i>Clear Filters
+                </button>
+                <span class="ms-3 text-muted" id="jobCount">Loading jobs...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Enhanced Loading State -->
+        <div id="loading" class="text-center py-5">
+          <div class="mb-4">
+            <div class="loading"></div>
+          </div>
+          <h5 class="fw-bold mb-2">Finding Amazing Opportunities</h5>
+          <p class="text-muted">Please wait while we fetch the latest job postings...</p>
+          <div class="progress" style="height: 6px; border-radius: 3px; max-width: 300px; margin: 0 auto;">
+            <div class="progress-bar" style="background: var(--gradient-primary); animation: progress 2s ease-in-out infinite;"></div>
+          </div>
+        </div>
+
+        <!-- Jobs Container -->
+        <div id="jobs-list" style="display: none;"></div>
+
+        <!-- No Jobs State -->
+        <div id="no-jobs" class="text-center py-5" style="display: none;">
+          <i class="fas fa-search fa-3x text-muted mb-3"></i>
+          <h4>No Jobs Found</h4>
+          <p class="text-muted mb-4">We couldn't find any jobs matching your criteria. Try adjusting your search filters or check back later for new opportunities!</p>
+          <div class="d-flex justify-content-center gap-3">
+            <button onclick="clearFilters()" class="btn btn-primary-custom btn-custom">
+              <i class="fas fa-redo me-2"></i>Clear Filters
+            </button>
+            <a href="/dashboard" class="btn btn-secondary-custom btn-custom" id="backToDashboard" style="display: none;">
+              <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+            </a>
+          </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-state" class="text-center py-5" style="display: none;">
+          <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+          <h4>Oops! Something went wrong</h4>
+          <p class="text-muted mb-4">We're having trouble loading the job listings. Please try again.</p>
+          <button onclick="loadJobs()" class="btn btn-danger-custom btn-custom">
+            <i class="fas fa-redo me-2"></i>Try Again
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer-custom">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="footer-brand">
+            <div class="brand-logo me-2">
+              <i class="fas fa-briefcase"></i>
+            </div>
+            <span class="brand-text">JobPortal</span>
+          </div>
+          <p class="footer-description">
+            Connecting talented professionals with amazing opportunities worldwide.
+          </p>
+          <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <h6 class="footer-title">For Job Seekers</h6>
+          <ul class="footer-links">
+            <li><a href="/jobs">Browse Jobs</a></li>
+            <li><a href="/companies">Companies</a></li>
+            <li><a href="/career-advice">Career Advice</a></li>
+            <li><a href="/resume-builder">Resume Builder</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2">
+          <h6 class="footer-title">For Employers</h6>
+          <ul class="footer-links">
+            <li><a href="/post-job">Post a Job</a></li>
+            <li><a href="/pricing">Pricing</a></li>
+            <li><a href="/talent-search">Talent Search</a></li>
+            <li><a href="/employer-resources">Resources</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2">
+          <h6 class="footer-title">Company</h6>
+          <ul class="footer-links">
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/careers">Careers</a></li>
+            <li><a href="/press">Press</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2">
+          <h6 class="footer-title">Support</h6>
+          <ul class="footer-links">
+            <li><a href="/help">Help Center</a></li>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms of Service</a></li>
+            <li><a href="/security">Security</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="footer-divider">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <p class="footer-copyright">
+            © 2024 JobPortal. All rights reserved.
+          </p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <div class="footer-meta">
+            <span class="me-3">Made with ❤️ by ABHISHEK</span>
+            <span class="version">v2.0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let allJobs = [];
+    let currentUser = null;
+
+    // Helper function to generate default avatar
+    function getDefaultAvatar(name = 'User', size = 32) {
+      const initial = name.charAt(0).toUpperCase();
+      return `data:image/svg+xml,${encodeURIComponent(`
+        <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="${size/2}" cy="${size/2}" r="${size/2}" fill="#6366f1"/>
+          <text x="${size/2}" y="${size/2 + 5}" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="${size/2.5}" font-weight="bold">${initial}</text>
+        </svg>
+      `)}`;
+    }
+
+    // Check authentication status and update navbar
+    async function checkAuth() {
+      try {
+        const response = await fetch('/api/auth/status');
+        const data = await response.json();
+        
+        if (data.authenticated) {
+          updateNavbarForUser(data.user);
+        } else {
+          updateNavbarForGuest();
+        }
+      } catch (error) {
+        console.error('Error checking auth status:', error);
+        updateNavbarForGuest();
+      }
+    }
+
+    function updateNavbarForGuest() {
+      // Hide user navigation
+      document.getElementById('userMenu').style.display = 'none';
+      document.getElementById('dashboardNav').style.display = 'none';
+      document.getElementById('jobsDropdown').style.display = 'none';
+      document.getElementById('employerDropdown').style.display = 'none';
+      document.getElementById('backToDashboard').style.display = 'none';
+      
+      // Show guest navigation
+      document.getElementById('guestSignIn').style.display = 'block';
+      document.getElementById('guestRegister').style.display = 'block';
+      document.getElementById('browseJobsNav').style.display = 'block';
+    }
+
+    function updateNavbarForUser(user) {
+      currentUser = user;
+      
+      // Hide guest navigation
+      document.getElementById('guestSignIn').style.display = 'none';
+      document.getElementById('guestRegister').style.display = 'none';
+      document.getElementById('browseJobsNav').style.display = 'none';
+      
+      // Show user navigation
+      document.getElementById('userMenu').style.display = 'block';
+      document.getElementById('dashboardNav').style.display = 'block';
+      document.getElementById('backToDashboard').style.display = 'inline-block';
+      
+      // Update user info
+      document.getElementById('navUserName').textContent = user.name || 'User';
+      document.getElementById('navUserNameLarge').textContent = user.name || 'User';
+      document.getElementById('navUserRole').textContent = user.type === 'employer' ? 'Employer' : 'Job Seeker';
+      
+      // Set profile pictures
+      const profilePic = user.profile_picture || getDefaultAvatar(user.name, 32);
+      const profilePicLarge = user.profile_picture || getDefaultAvatar(user.name, 40);
+      document.getElementById('navProfilePicture').src = profilePic;
+      document.getElementById('navProfilePictureLarge').src = profilePicLarge;
+      
+      // Show appropriate dropdowns based on user type
+      if (user.type === 'user') {
+        document.getElementById('jobsDropdown').style.display = 'block';
+        document.getElementById('employerDropdown').style.display = 'none';
+        document.getElementById('savedJobs').style.display = 'block';
+        document.getElementById('employerBilling').style.display = 'none';
+      } else {
+        document.getElementById('jobsDropdown').style.display = 'none';
+        document.getElementById('employerDropdown').style.display = 'block';
+        document.getElementById('savedJobs').style.display = 'none';
+        document.getElementById('employerBilling').style.display = 'block';
+      }
+    }
+
+    // Theme Management
+    function toggleTheme() {
+      const html = document.documentElement;
+      const themeIcon = document.querySelector('.theme-icon');
+      
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      
+      if (newTheme === 'dark') {
+        themeIcon.textContent = '☀️';
+      } else {
+        themeIcon.textContent = '🌙';
+      }
+    }
+
+    // Load saved theme
+    function loadTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      const html = document.documentElement;
+      const themeIcon = document.querySelector('.theme-icon');
+      
+      html.setAttribute('data-theme', savedTheme);
+      
+      if (savedTheme === 'dark') {
+        themeIcon.textContent = '☀️';
+      }
+    }
+
+    // Load jobs from API
+    async function loadJobs() {
+      try {
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('jobs-list').style.display = 'none';
+        document.getElementById('no-jobs').style.display = 'none';
+        document.getElementById('error-state').style.display = 'none';
+        
+        const response = await fetch('/api/jobs');
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch jobs');
+        }
+        
+        const jobs = await response.json();
+        allJobs = jobs;
+        
+        // Add a small delay for better UX
+        setTimeout(() => {
+          document.getElementById('loading').style.display = 'none';
+          
+          if (jobs.length === 0) {
+            document.getElementById('no-jobs').style.display = 'block';
+            document.getElementById('jobCount').textContent = 'No jobs found';
+            return;
+          }
+          
+          displayJobs(jobs);
+          
+        }, 1000);
+        
+      } catch (error) {
+        console.error('Error loading jobs:', error);
+        setTimeout(() => {
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('error-state').style.display = 'block';
+        }, 1000);
+      }
+    }
+
+    // Display jobs
+    function displayJobs(jobs) {
+      const jobsList = document.getElementById('jobs-list');
+      const noJobs = document.getElementById('no-jobs');
+      const jobCount = document.getElementById('jobCount');
+      
+      if (jobs.length === 0) {
+        jobsList.style.display = 'none';
+        noJobs.style.display = 'block';
+        jobCount.textContent = 'No jobs found';
+        return;
+      }
+      
+      noJobs.style.display = 'none';
+      jobsList.style.display = 'block';
+      jobCount.textContent = `${jobs.length} job${jobs.length !== 1 ? 's' : ''} found`;
+      
+      jobsList.innerHTML = `
+        <div class="row g-4">
+          ${jobs.map((job, index) => `
+            <div class="col-lg-6">
+              <div class="job-card hover-lift" style="animation-delay: ${index * 0.1}s; opacity: 0; transform: translateY(20px);">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="flex-grow-1">
+                    <h5 class="job-title">${job.title}</h5>
+                    <div class="job-company">
+                      <i class="fas fa-building me-2"></i>${job.company}
+                    </div>
+                    ${job.location ? `
+                      <div class="job-location">
+                        <i class="fas fa-map-marker-alt me-2"></i>${job.location}
+                      </div>
+                    ` : ''}
+                  </div>
+                  <div class="text-end">
+                    <div class="badge bg-success mb-2">
+                      <i class="fas fa-clock me-1"></i>New
+                    </div>
+                    <br>
+                    <small class="text-muted">
+                      <i class="fas fa-calendar me-1"></i>Posted recently
+                    </small>
+                  </div>
+                </div>
+                
+                <div class="job-description">
+                  ${job.description.length > 150 ? job.description.substring(0, 150) + '...' : job.description}
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-3">
+                  <div class="d-flex gap-2 flex-wrap">
+                    <span class="badge bg-primary">
+                      <i class="fas fa-briefcase me-1"></i>Full-time
+                    </span>
+                    ${job.location && job.location.toLowerCase().includes('remote') ? `
+                      <span class="badge bg-success">
+                        <i class="fas fa-home me-1"></i>Remote
+                      </span>
+                    ` : `
+                      <span class="badge bg-secondary">
+                        <i class="fas fa-building me-1"></i>On-site
+                      </span>
+                    `}
+                    <span class="badge" style="background: linear-gradient(135deg, #8b5cf6, #3b82f6); color: white;">
+                      <i class="fas fa-star me-1"></i>Featured
+                    </span>
+                  </div>
+                  ${currentUser && currentUser.type === 'user' ? `
+                    <a href="/apply/${job.id}" class="btn btn-success-custom btn-custom">
+                      <i class="fas fa-paper-plane me-2"></i>Apply Now
+                    </a>
+                  ` : currentUser && currentUser.type === 'employer' ? `
+                    <span class="text-muted">
+                      <i class="fas fa-info-circle me-1"></i>Employer account - cannot apply
+                    </span>
+                  ` : `
+                    <a href="/login" class="btn btn-outline-primary btn-custom">
+                      <i class="fas fa-sign-in-alt me-2"></i>Login to Apply
+                    </a>
+                  `}
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        
+        ${jobs.length > 0 ? `
+        <div class="text-center mt-5">
+          <div class="card-custom">
+            <div class="card-body-custom">
+              <h5 class="fw-bold mb-3">
+                <i class="fas fa-chart-bar me-2 text-primary"></i>Job Market Insights
+              </h5>
+              <div class="row text-center">
+                <div class="col-md-4">
+                  <div class="mb-2">
+                    <i class="fas fa-briefcase fa-2x text-primary"></i>
+                  </div>
+                  <h6 class="fw-bold">${jobs.length}</h6>
+                  <small class="text-muted">Active Jobs</small>
+                </div>
+                <div class="col-md-4">
+                  <div class="mb-2">
+                    <i class="fas fa-building fa-2x text-success"></i>
+                  </div>
+                  <h6 class="fw-bold">${new Set(jobs.map(job => job.company)).size}</h6>
+                  <small class="text-muted">Companies Hiring</small>
+                </div>
+                <div class="col-md-4">
+                  <div class="mb-2">
+                    <i class="fas fa-map-marker-alt fa-2x text-warning"></i>
+                  </div>
+                  <h6 class="fw-bold">${new Set(jobs.map(job => job.location).filter(Boolean)).size}</h6>
+                  <small class="text-muted">Locations Available</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        ` : ''}
+      `;
+      
+      // Add entrance animation
+      const jobCards = document.querySelectorAll('.job-card');
+      jobCards.forEach((card, index) => {
+        setTimeout(() => {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, index * 100);
+      });
+    }
+
+    // Apply filters
+    function applyFilters() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const locationFilter = document.getElementById('locationFilter').value.toLowerCase();
+      const typeFilter = document.getElementById('typeFilter').value.toLowerCase();
+      
+      let filteredJobs = allJobs.filter(job => {
+        const matchesSearch = !searchTerm || 
+          job.title.toLowerCase().includes(searchTerm) ||
+          job.company.toLowerCase().includes(searchTerm) ||
+          job.description.toLowerCase().includes(searchTerm);
+          
+        const matchesLocation = !locationFilter || 
+          (job.location && job.location.toLowerCase().includes(locationFilter));
+          
+        // For now, we'll assume all jobs are full-time since we don't have type data
+        const matchesType = !typeFilter || typeFilter === 'full-time';
+        
+        return matchesSearch && matchesLocation && matchesType;
+      });
+      
+      displayJobs(filteredJobs);
+    }
+
+    // Clear filters
+    function clearFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('locationFilter').value = '';
+      document.getElementById('typeFilter').value = '';
+      displayJobs(allJobs);
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      loadTheme();
+      checkAuth();
+      loadJobs();
+      
+      // Add search on enter key
+      document.getElementById('searchInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          applyFilters();
+        }
+      });
+
+      // Add entrance animation to main container
+      const mainContainer = document.querySelector('.main-container');
+      if (mainContainer) {
+        mainContainer.style.opacity = '0';
+        mainContainer.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          mainContainer.style.opacity = '1';
+          mainContainer.style.transform = 'translateY(0)';
+        }, 100);
+      }
+
+      // Navbar scroll effect
+      window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar-custom');
+        if (window.scrollY > 50) {
+          navbar.classList.add('navbar-scrolled');
+        } else {
+          navbar.classList.remove('navbar-scrolled');
+        }
+      });
+    });
+  </script>
+
+  <style>
+    @keyframes progress {
+      0% { width: 0%; }
+      50% { width: 70%; }
+      100% { width: 100%; }
+    }
+  </style>
+</body>
+</html>

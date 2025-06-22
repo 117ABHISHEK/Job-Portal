@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply for Job - JobPortal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <!-- Theme Toggle -->
+  <div class="theme-toggle" onclick="toggleTheme()">
+    <span class="theme-icon">🌙</span>
+    <span class="theme-text">Dark</span>
+  </div>
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="main-container">
+          <div class="text-center mb-4">
+            <i class="fas fa-paper-plane fa-3x text-success mb-3"></i>
+            <h2 class="fw-bold">Apply for Job</h2>
+            <p class="text-muted">Upload your resume to complete your application</p>
+          </div>
+
+          <form id="applyForm" method="POST" enctype="multipart/form-data">
+            <div class="mb-4">
+              <label class="form-label-custom">
+                <i class="fas fa-file-pdf me-2"></i>Resume (PDF only)
+              </label>
+              <div class="file-upload-wrapper">
+                <input type="file" name="resume" accept=".pdf" class="file-upload-input" required id="resumeInput">
+                <label for="resumeInput" class="file-upload-label" id="fileLabel">
+                  <div class="mb-3">
+                    <i class="fas fa-cloud-upload-alt fa-3x mb-3 d-block" style="color: var(--primary-color);"></i>
+                  </div>
+                  <h5 class="fw-bold mb-2">Drop your resume here</h5>
+                  <p class="mb-2"><strong>or click to browse files</strong></p>
+                  <small class="text-muted">
+                    <i class="fas fa-info-circle me-1"></i>
+                    PDF files only • Max 5MB • Keep it updated
+                  </small>
+                </label>
+              </div>
+              <div id="fileInfo" class="mt-3" style="display: none;">
+                <div class="alert alert-success-custom">
+                  <i class="fas fa-check-circle me-2"></i>
+                  <strong>File selected:</strong> <span id="fileName"></span>
+                  <br>
+                  <small>Ready to submit your application!</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="alert alert-info-custom">
+              <div class="d-flex align-items-start">
+                <i class="fas fa-lightbulb fa-2x me-3 mt-1" style="color: var(--info-color);"></i>
+                <div>
+                  <h6 class="fw-bold mb-2">💡 Application Tips for Success</h6>
+                  <ul class="mb-0">
+                    <li>Ensure your resume is up-to-date with recent experience</li>
+                    <li>Highlight skills that match the job requirements</li>
+                    <li>Use a professional email address</li>
+                    <li>Keep file size under 5MB for faster processing</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-success-custom btn-custom" id="submitBtn">
+                <i class="fas fa-paper-plane me-2"></i>
+                Submit Application
+              </button>
+            </div>
+
+            <div class="text-center mt-3">
+              <a href="/jobs" class="btn btn-secondary-custom btn-custom">
+                <i class="fas fa-arrow-left me-2"></i>Back to Jobs
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Theme Management
+    function toggleTheme() {
+      const html = document.documentElement;
+      const themeIcon = document.querySelector('.theme-icon');
+      const themeText = document.querySelector('.theme-text');
+      
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      
+      if (newTheme === 'dark') {
+        themeIcon.textContent = '☀️';
+        themeText.textContent = 'Light';
+      } else {
+        themeIcon.textContent = '🌙';
+        themeText.textContent = 'Dark';
+      }
+    }
+
+    // Load saved theme
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      const html = document.documentElement;
+      const themeIcon = document.querySelector('.theme-icon');
+      const themeText = document.querySelector('.theme-text');
+      
+      html.setAttribute('data-theme', savedTheme);
+      
+      if (savedTheme === 'dark') {
+        themeIcon.textContent = '☀️';
+        themeText.textContent = 'Light';
+      }
+    });
+
+    // Enhanced file upload handling
+    document.getElementById('resumeInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      const fileLabel = document.getElementById('fileLabel');
+      const fileInfo = document.getElementById('fileInfo');
+      const fileName = document.getElementById('fileName');
+      
+      if (file) {
+        // Validate file type
+        if (file.type !== 'application/pdf') {
+          alert('⚠️ Please select a PDF file only');
+          e.target.value = '';
+          return;
+        }
+        
+        // Validate file size (5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          alert('⚠️ File size must be less than 5MB');
+          e.target.value = '';
+          return;
+        }
+        
+        fileLabel.classList.add('has-file');
+        fileLabel.innerHTML = `
+      <div class="mb-3">
+        <i class="fas fa-file-pdf fa-3x mb-3 d-block" style="color: var(--success-color);"></i>
+      </div>
+      <h5 class="fw-bold mb-2" style="color: var(--success-color);">✅ Resume Uploaded</h5>
+      <p class="mb-2"><strong>Click to change file</strong></p>
+      <small class="text-muted">File is ready for submission</small>
+    `;
+        
+        fileName.textContent = file.name;
+        fileInfo.style.display = 'block';
+        
+        // Add success animation
+        fileInfo.style.opacity = '0';
+        fileInfo.style.transform = 'translateY(10px)';
+        setTimeout(() => {
+          fileInfo.style.opacity = '1';
+          fileInfo.style.transform = 'translateY(0)';
+        }, 100);
+        
+      } else {
+        fileLabel.classList.remove('has-file');
+        fileLabel.innerHTML = `
+      <div class="mb-3">
+        <i class="fas fa-cloud-upload-alt fa-3x mb-3 d-block" style="color: var(--primary-color);"></i>
+      </div>
+      <h5 class="fw-bold mb-2">Drop your resume here</h5>
+      <p class="mb-2"><strong>or click to browse files</strong></p>
+      <small class="text-muted">
+        <i class="fas fa-info-circle me-1"></i>
+        PDF files only • Max 5MB • Keep it updated
+      </small>
+    `;
+        fileInfo.style.display = 'none';
+      }
+    });
+
+    // Form submission
+    document.getElementById('applyForm').addEventListener('submit', function(e) {
+      const submitBtn = document.getElementById('submitBtn');
+      const file = document.getElementById('resumeInput').files[0];
+      
+      if (!file) {
+        e.preventDefault();
+        alert('Please select a resume file');
+        return;
+      }
+      
+      // Show loading state
+      submitBtn.innerHTML = `
+        <div class="loading me-2"></div>
+        Submitting...
+      `;
+      submitBtn.disabled = true;
+    });
+  </script>
+</body>
+</html>

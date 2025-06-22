@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JobPortal - Find Your Dream Job</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <!-- Professional Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+    <div class="container">
+      <!-- Brand Logo -->
+      <a class="navbar-brand d-flex align-items-center" href="/">
+        <div class="brand-logo me-2">
+          <i class="fas fa-briefcase"></i>
+        </div>
+        <span class="brand-text">JobPortal</span>
+      </a>
+      
+      <!-- Mobile Toggle Button -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <!-- Navbar Content -->
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <!-- Main Navigation -->
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="/">
+              <i class="fas fa-home me-1"></i>Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/jobs">
+              <i class="fas fa-search me-1"></i>Browse Jobs
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about">
+              <i class="fas fa-info-circle me-1"></i>About
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contact">
+              <i class="fas fa-envelope me-1"></i>Contact
+            </a>
+          </li>
+        </ul>
+        
+        <!-- Right Side Navigation -->
+        <ul class="navbar-nav align-items-center">
+          <!-- Theme Toggle -->
+          <li class="nav-item me-2">
+            <button class="btn btn-theme-toggle" onclick="toggleTheme()" id="themeToggle">
+              <span class="theme-icon">🌙</span>
+            </button>
+          </li>
+          
+          <!-- Guest Navigation -->
+          <li class="nav-item me-2">
+            <a class="btn btn-outline-primary btn-nav" href="/login">
+              <i class="fas fa-sign-in-alt me-1"></i>Sign In
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-primary btn-nav" href="/register">
+              <i class="fas fa-user-plus me-1"></i>Get Started
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Floating Background Elements -->
+  <div class="floating-shapes">
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+  </div>
+
+  <!-- Main Content with proper navbar spacing -->
+  <div class="main-content">
+    <!-- Enhanced Hero Section -->
+    <div class="hero-section">
+      <div class="container">
+        <h1 class="hero-title">
+          <i class="fas fa-briefcase me-3"></i>
+          JobPortal
+        </h1>
+        <p class="hero-subtitle">
+          🚀 Connect talented professionals with amazing opportunities worldwide
+        </p>
+        <div class="d-flex justify-content-center gap-4 flex-wrap">
+          <a href="/register" class="btn btn-light btn-lg btn-custom hover-lift">
+            <i class="fas fa-user-plus me-2"></i>
+            Get Started
+          </a>
+          <a href="/login" class="btn btn-outline-light btn-lg btn-custom hover-lift">
+            <i class="fas fa-sign-in-alt me-2"></i>
+            Sign In
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Enhanced Features Section -->
+    <div class="container my-5">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold mb-3">Why Choose JobPortal?</h2>
+        <p class="text-muted">Discover the features that make us the best choice for your career</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card-custom h-100 hover-lift">
+            <div class="card-body-custom text-center">
+              <div class="mb-4">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                  <i class="fas fa-search fa-2x text-white"></i>
+                </div>
+              </div>
+              <h5 class="card-title fw-bold mb-3">Find Dream Jobs</h5>
+              <p class="card-text text-muted">
+                Discover thousands of job opportunities from top companies worldwide with our advanced search filters.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card-custom h-100 hover-lift">
+            <div class="card-body-custom text-center">
+              <div class="mb-4">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #10b981, #06b6d4); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                  <i class="fas fa-building fa-2x text-white"></i>
+                </div>
+              </div>
+              <h5 class="card-title fw-bold mb-3">For Employers</h5>
+              <p class="card-text text-muted">
+                Post jobs and find the perfect candidates for your organization with our powerful recruitment tools.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card-custom h-100 hover-lift">
+            <div class="card-body-custom text-center">
+              <div class="mb-4">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #f59e0b, #ef4444); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                  <i class="fas fa-rocket fa-2x text-white"></i>
+                </div>
+              </div>
+              <h5 class="card-title fw-bold mb-3">Easy Apply</h5>
+              <p class="card-text text-muted">
+                Apply to jobs with just one click using your uploaded resume and track your applications.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="container my-5">
+      <div class="main-container text-center">
+        <h2 class="mb-4">Ready to Start Your Journey?</h2>
+        <p class="text-muted mb-4">
+          Join thousands of professionals who have found their dream jobs through JobPortal.
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+          <a href="/register" class="btn btn-primary-custom btn-custom">
+            <i class="fas fa-user-plus me-2"></i>
+            Create Account
+          </a>
+          <a href="/login" class="btn btn-secondary-custom btn-custom">
+            <i class="fas fa-sign-in-alt me-2"></i>
+            Sign In
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer-custom">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="footer-brand">
+            <div class="brand-logo me-2">
+              <i class="fas fa-briefcase"></i>
+            </div>
+            <span class="brand-text">JobPortal</span>
+          </div>
+          <p class="footer-description">
+            Connecting talented professionals with amazing opportunities worldwide.
+          </p>
+          <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <h6 class="footer-title">For Job Seekers</h6>
+          <ul class="footer-links">
+            <li><a href="/jobs">Browse Jobs</a></li>
+            <li><a href="/companies">Companies</a></li>
+            <li><a href="/career-advice">Career Advice</a></li>
+            <li><a href="/resume-builder">Resume Builder</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2">
+          <h6 class="footer-title">For Employers</h6>
+          <ul class="footer-links">
+            <li><a href="/post-job">Post a Job</a></li>
+            <li><a href="/pricing">Pricing</a></li>
+            <li><a href="/talent-search">Talent Search</a></li>
+            <li><a href="/employer-resources">Resources</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2">
+          <h6 class="footer-title">Company</h6>
+          <ul class="footer-links">
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/careers">Careers</a></li>
+            <li><a href="/press">Press</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2">
+          <h6 class="footer-title">Support</h6>
+          <ul class="footer-links">
+            <li><a href="/help">Help Center</a></li>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms of Service</a></li>
+            <li><a href="/security">Security</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="footer-divider">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <p class="footer-copyright">
+            © 2024 JobPortal. All rights reserved.
+          </p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <div class="footer-meta">
+            <span class="me-3">Made with ❤️ by ABHISHEK</span>
+            <span class="version">v2.0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Theme Management
+    function toggleTheme() {
+      const html = document.documentElement;
+      const themeIcon = document.querySelector('.theme-icon');
+      
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      
+      if (newTheme === 'dark') {
+        themeIcon.textContent = '☀️';
+      } else {
+        themeIcon.textContent = '🌙';
+      }
+    }
+
+    // Load saved theme
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      const html = document.documentElement;
+      const themeIcon = document.querySelector('.theme-icon');
+      
+      html.setAttribute('data-theme', savedTheme);
+      
+      if (savedTheme === 'dark') {
+        themeIcon.textContent = '☀️';
+      }
+
+      // Navbar scroll effect
+      window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar-custom');
+        if (window.scrollY > 50) {
+          navbar.classList.add('navbar-scrolled');
+        } else {
+          navbar.classList.remove('navbar-scrolled');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

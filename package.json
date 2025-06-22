@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "multer": "^2.0.1",
+    "nodemon": "^3.1.10",
+    "sqlite3": "^5.1.7"
+  }
+}
