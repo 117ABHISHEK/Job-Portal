@@ -60,7 +60,7 @@ job-portal/
 
 1. **Clone the Repo**
    ```bash
-   git clone https://github.com/your-username/job-portal.git
+   git clone https://github.com/117ABHISHEK/Job-Portal.git
    cd job-portal
    ```
 
